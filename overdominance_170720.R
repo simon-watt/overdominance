@@ -41,7 +41,12 @@ replicates<-1
 
 # file name info...
 scenarioname<-"scenario1"
-dir.create(scenarioname)
+if (dir.exists(scenarioname)) {
+  message("directory already exists")
+} else  {
+  message("directory created")
+  dir.create(scenarioname)
+}
 
 # need to loop over a range of crossing over rates...
 for(c in seq(0,0,0)){
