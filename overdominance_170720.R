@@ -1,8 +1,13 @@
 # script to simulate overdominance without migration...
 
 # Richmond change...
-#setwd("C:/Users/z5122213/Desktop/r_overdominance")
-setwd("~/R")
+if (.Platform$OS.type=="unix") {
+  setwd("~/R")
+  sep <- "/"
+} else {
+  setwd("C:/Users/z5122213/Desktop/r_overdominance")
+  sep <- "\\"
+}
 
 # how many loci are being modeled
 
@@ -211,7 +216,7 @@ for(c in seq(0,0,0)){
         alle_freq__tot_1<-rbind(alle_freq__tot_1, alle_freq_1)
       }
       colnames(pop1)<-c("sex","source","gen","malep","femalep","indnum","c1-l1","c1-l2","c2-l1","c2-l2")
-      write.csv(pop1,file=paste(scenarioname,"\\",scenarioname,"-cr","-mort",m*100,"-rep-",i,".csv",sep=""),row.names=FALSE)
+      write.csv(pop1,file=paste(scenarioname,sep,scenarioname,"-cr","-mort",m*100,"-rep-",i,".csv",sep=""),row.names=FALSE)
       #plot(generation_tot,het_tot_1)
       plot(generation_tot,het_tot_2)
       plot(generation_tot, alle_freq__tot_1,type="l", ylab = "Allele frequency allele 1",xlab = "Number of generations",main = "case: No recombination, m=0.15 ")
