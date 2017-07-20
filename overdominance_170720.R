@@ -226,7 +226,7 @@ for(c in seq(0,0,0)){
       write.csv(pop1,file=paste(scenarioname,sep,scenarioname,"-cr","-mort",m*100,"-rep-",i,".csv",sep=""),row.names=FALSE)
       #plot(generation_tot,het_tot_1)
       plot(generation_tot,het_tot_2)
-      plot(generation_tot, alle_freq__tot_1,type="l", ylab = "Allele frequency allele 1",xlab = "Number of generations",main = "case: No recombination, m=0.15 ")
+      plot(generation_tot, alle_freq__tot_1,type="l", ylab = "Allele frequency allele 1",xlab = "Number of generations",main = paste("case: No recombination, m = ",m," "))
     }
   }
 }
