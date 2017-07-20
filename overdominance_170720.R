@@ -1,7 +1,8 @@
 # script to simulate overdominance without migration...
 
 # Richmond change...
-setwd("C:/Users/z5122213/Desktop/r_overdominance")
+#setwd("C:/Users/z5122213/Desktop/r_overdominance")
+setwd("~/R")
 
 # how many loci are being modeled
 
