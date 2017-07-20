@@ -209,15 +209,17 @@ for(c in seq(0,0,0)){
         #calculate heterozygosity
         count_allele_10<-sum(length(which(popgenome1$V8==10)),length(which(popgenome1$V10==10))) 
         count_allele_20<-(2*metasz)-count_allele_10 
-        het_1<-1-sum((count_allele_10/(2*metasz))^2,(count_allele_20/(2*metasz))^2)
+        alle_freq_10 <- count_allele_10/(2*metasz)
+        alle_freq_20 <- count_allele_20/(2*metasz)
+        het_1<-1-sum((allele_freq_10 ^ 2),(allele_freq_20 ^ 2))
         count_allele_1<-sum(length(which(popgenome1$V7==1)),length(which(popgenome1$V9==1)))
         count_allele_2<-(2*metasz)-count_allele_1
-        het_2<-1-sum((count_allele_1/(2*metasz))^2,(count_allele_2/(2*metasz))^2)
+        alle_freq_1 <- count_allele_1/(2*metasz)
+        alle_freq_2 <- count_allele_2/(2*metasz)        
+        het_2<-1-sum((allele_freq_1 ^ 2),(allele_freq_2 ^ 2))
         het_tot_1<-rbind(het_tot_1,het_1)
         het_tot_2<-rbind(het_tot_2,het_2)
         generation_tot<-rbind(generation_tot,g)
-        # frequency allele 1
-        alle_freq_1<-(count_allele_1*(sum(count_allele_1,count_allele_2))/(2*metasz)^2)
         alle_freq__tot_1<-rbind(alle_freq__tot_1, alle_freq_1)
       }
       colnames(pop1)<-c("sex","source","gen","malep","femalep","indnum","c1-l1","c1-l2","c2-l1","c2-l2")
