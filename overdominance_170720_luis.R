@@ -106,7 +106,7 @@ for (recombination_rate in seq(0.1,0.1,0.1)) {
             malechromes <- list(mctemp1, mctemp2)
             
             # pick which male gamete this number_offspring is getting...
-            offspring_matrix[(p - 1) * number_offspring + n, 8:9] <- malechromes[[sample(c(1, 2), 1)]]
+            offspring_matrix[(parent - 1) * number_offspring + n, 8:9] <- malechromes[[sample(c(1, 2), 1)]]
             
             # getting the genotype from mom
             randmom <-runif(1) # getting a random deviate to see if crossing over happens
@@ -121,7 +121,7 @@ for (recombination_rate in seq(0.1,0.1,0.1)) {
             }
             femalechromes <- list(fctemp1, fctemp2)
             # pick which male gamete this number_offspring is getting...
-            offspring_matrix[(p - 1) * number_offspring + n, 10:11] <-
+            offspring_matrix[(parent - 1) * number_offspring + n, 10:11] <-
               femalechromes[[sample(c(1, 2), 1)]]
           }
         }
