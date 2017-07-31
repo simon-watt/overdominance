@@ -19,7 +19,6 @@ struct indiv_t
 
 void pick(int &val,int vals[],double probs[])
 {
-//	double rnd=1.0*rand()/RAND_MAX;
 	boost::uniform_01<> dist;
 
 	double rnd=dist(gen);
@@ -61,7 +60,9 @@ void append(vector<indiv_t> &dest,vector<indiv_t> src)
 
 int pick(int n)
 {
-	return rand() % n;
+	boost::uniform_int<> dist(0,n-1);
+
+	return dist(gen);
 }
 
 void print(vector<vector<int> > data)
