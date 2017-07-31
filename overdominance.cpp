@@ -10,6 +10,8 @@ using namespace std;
 
 boost::mt19937 gen(getpid());
 
+int verb=0;
+
 struct indiv_t
 {
 	char gender;
@@ -86,9 +88,14 @@ int main()
 	int alle_names[nloci][2]={A1,A2,B1,B2};
 	double alle_freq[nloci][2]={0.5,0.5,0.2,0.8};
 
-	vector<indiv_t> starting_pop,next_gen;
+	char fname[100];
+	sprintf(fname,"fixA1-%i.dat",getpid());ofstream outA1(fname);
+        sprintf(fname,"fixA2-%i.dat",getpid());ofstream outA2(fname);
 
-	starting_pop.resize(popsize);
+	for (int reps=0;reps<1000;reps++)
+	{
+	vector<indiv_t> starting_pop(popsize),next_gen;
+
 	for (int i=0;i<popsize;i++)
 	{
 		if (i<popsize/2)
@@ -106,7 +113,8 @@ int main()
                 pick(starting_pop[i].l2a2,alle_names[1],alle_freq[1]);
 	}
 
-	print(starting_pop);
+	if (verb)
+		print(starting_pop);
 
 	append(next_gen,starting_pop);
 
@@ -114,10 +122,12 @@ int main()
 	vector<double> alle_freq_tot_A1,alle_freq_tot_A2;
 
 	int g=0;
+	int index=starting_pop.size();
 	while (1)
 	{
 		g++;
-		cout << "g = " << g << endl;
+		if (verb)
+			cout << "g = " << g << endl;
 		vector<indiv_t> male_parents,female_parents;
 		for (int i=0;i<starting_pop.size();i++)
 			if (starting_pop[i].gender=='M')
@@ -219,7 +229,7 @@ int main()
 				if (offspring.l1a1==A2&&offspring.l2a1==A2
 						&&rnd<mort_A2)
 					break;
-				offspring.id=offspring_matrix.size();
+				offspring.id=index++;
 				offspring_matrix.push_back(offspring);
 			}
 		}
@@ -257,23 +267,29 @@ int main()
 		alle_freq_tot_A1.push_back(alle_freq_A1);
 		alle_freq_tot_A2.push_back(alle_freq_A2);
 
-		cout << alle_freq_A1 << " " << alle_freq_A2 << endl;
+		if (verb)
+			cout << alle_freq_A1 << " " << alle_freq_A2 << endl;
 
-/*
 		if (alle_freq_A1==0)
 		{
-			cout << "No more A1 after generation " << g << endl;
+			cout << "Reps = " << reps << " Fixation A1 after generation " << g << endl;
+			outA1 << g << endl;
 			break;
 		}
 		if (alle_freq_A2==0)
 		{
-			cout << "No more A2 after generation " << g << endl;
+			cout << "Reps = " << reps << " Fixation A2 after generation " << g << endl;
+			outA2 << g << endl;
 			break;
 		}
-*/
+
+/*
 		if (g>ngen)
 			break;
+*/
 	}
-		
+	}
+	outA1.close();
+	outA2.close();		
 }
 
