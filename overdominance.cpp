@@ -1,13 +1,14 @@
 #include<iostream>
 #include<fstream>
 #include<boost/random/mersenne_twister.hpp>
-#include<boost/random/uniform_int_distribution.hpp>
-#include<boost/random/discrete_distribution.hpp>
-#include<vector>
+#include<boost/random.hpp>
 
-boost::random::mt19937 gen;
+#include<vector>
+#include<cmath>
 
 using namespace std;
+
+boost::mt19937 gen(getpid());
 
 struct indiv_t
 {
@@ -18,7 +19,11 @@ struct indiv_t
 
 void pick(int &val,int vals[],double probs[])
 {
-	double rnd=1.0*rand()/RAND_MAX;
+//	double rnd=1.0*rand()/RAND_MAX;
+	boost::uniform_01<> dist;
+
+	double rnd=dist(gen);
+
 	double cdf;
 	int i=0;
 	cdf=probs[i];

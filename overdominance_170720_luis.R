@@ -9,13 +9,15 @@ population_size <- 100
 # how many offspring does each mating produce?
 number_offspring <- 10
 # how many generations are we simulating
-number_generations <- 10
+number_generations <- 500
 # how many loci are being modeled
 number_loci <- 2
 # does recombination happen in males? TRUE = yes, FALSE = no
 male_recombination <- TRUE
 # how many replicates to run
-replicates <- 1
+replicates <- 100
+# start clock
+st<-proc.time()[1]
 # need to loop over a range of recombination rates...
 for (recombination_rate in seq(0.1,0.1,0.1)) {
   message("recombination_rate = ", recombination_rate) # to track simulation progress
@@ -128,16 +130,17 @@ for (recombination_rate in seq(0.1,0.1,0.1)) {
         offspring_matrix[, 6] <- as.numeric(rownames(offspring_matrix))
         offspring_matrix[, 7] <- 1 # "1 = alive"
         offspring_matrix$V12 <- runif(dim(offspring_matrix)[1])
-        for (ii in 1:dim(offspring_matrix)[1]) {
+#       for (ii in 1:dim(offspring_matrix)[1]) {
           # apply mortality if an individual is homozygous for the second loci on each chromosome
-          if (offspring_matrix[ii, "V8"] == offspring_matrix[ii, "V10"]) {
+#          if (offspring_matrix[ii, "V8"] == offspring_matrix[ii, "V10"]) {
             # test to find homozygotes
-            if (offspring_matrix[ii, "V12"] < m) {
+#            if (offspring_matrix[ii, "V12"] < m) {
               # if the random number assigned to that ind is less than mort probability
-              offspring_matrix$V7[ii] <- 0   # set the individual to dead
-            }
-          }
-        }
+#              offspring_matrix$V7[ii] <- 0   # set the individual to dead
+#            }
+#          }
+#        }
+        offspring_matrix[which(offspring_matrix$V8==offspring_matrix$V10 & offspring_matrix$V12<m),7]<-0
         # get the male and female number_offsprings that are alive and then select the ones we'll use for
         # the next generation
         maleoffs <- offspring_matrix[which(offspring_matrix$V1 == "Male" & offspring_matrix$V7 == 1),]
@@ -167,8 +170,9 @@ for (recombination_rate in seq(0.1,0.1,0.1)) {
       }
       # storing after loop generation
       colnames(pop1) <- c("sex","source","gen","malep","femalep","indnum","c1-l1","c1-l2","c2-l1","c2-l2")
-      write.csv(pop1, file = paste( scenarioname,"\\", scenarioname, "-cr","-mort",m * 100,"-rep-", i, ".csv",sep = ""),
+      write.csv(pop1, file = paste( scenarioname,"/", scenarioname, "-cr","-mort",m * 100,"-rep-", i, ".csv",sep = ""),
         row.names = FALSE)
+      write.csv(sum(het_tot_B>0),file=paste(scenarioname,"/endOfTime-",i,".csv",sep=""))
       plot(generation_tot, het_tot_A, type = "l")
       plot(generation_tot, het_tot_B, type = "l")
       plot(generation_tot, alle_freq_tot_A1,
@@ -180,3 +184,5 @@ for (recombination_rate in seq(0.1,0.1,0.1)) {
     }
   }
 }
+et=proc.time()[1]
+message(paste("Stop the clock ",et-st))
