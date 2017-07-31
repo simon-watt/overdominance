@@ -37,7 +37,8 @@ void pick(int &val,int vals[],double probs[])
 
 double uniform()
 {
-	return 1.0*rand()/RAND_MAX;
+        boost::uniform_01<> dist;
+	return dist(gen);
 }
 
 void print(vector<indiv_t> list)
