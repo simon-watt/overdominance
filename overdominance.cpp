@@ -92,6 +92,16 @@ int main()
 	sprintf(fname,"fixA1-%i.dat",getpid());ofstream outA1(fname);
         sprintf(fname,"fixA2-%i.dat",getpid());ofstream outA2(fname);
 
+	outA1 << "# popsize = " << popsize << endl;
+	outA1 << "# noff = " << noff << endl;
+	outA1 << "# mort_A1 = " << mort_A1 << endl;
+	outA1 << "# mort_A2 = " << mort_A2 << endl;
+
+        outA2 << "# popsize = " << popsize << endl;
+        outA2 << "# noff = " << noff << endl;
+        outA2 << "# mort_A1 = " << mort_A1 << endl;
+        outA2 << "# mort_A2 = " << mort_A2 << endl;
+
 	for (int reps=0;reps<1000;reps++)
 	{
 	vector<indiv_t> starting_pop(popsize),next_gen;
