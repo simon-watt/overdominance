@@ -11,6 +11,7 @@ using namespace std;
 boost::mt19937 gen(getpid());
 
 int verb=0;
+int randCount=0;
 
 struct indiv_t
 {
@@ -24,6 +25,8 @@ void pick(int &val,int vals[],double probs[])
 	boost::uniform_01<> dist;
 
 	double rnd=dist(gen);
+	
+	randCount++;
 
 	double cdf;
 	int i=0;
@@ -39,6 +42,8 @@ void pick(int &val,int vals[],double probs[])
 double uniform()
 {
         boost::uniform_01<> dist;
+	randCount++;
+
 	return dist(gen);
 }
 
@@ -64,6 +69,8 @@ int pick(int n)
 {
 	boost::uniform_int<> dist(0,n-1);
 
+	randCount++;
+
 	return dist(gen);
 }
 
@@ -79,7 +86,7 @@ void print(vector<vector<int> > data)
 
 int main()
 {
-	const int popsize=100,noff=5,ngen=200,nloci=2,reps=1;
+	const int popsize=100,noff=5,ngen=200,nloci=2,nreps=100;
 	double mort_A1=0,mort_A2=0,recomb_rate=0;
 	int male_recomb=0;
 
@@ -92,7 +99,7 @@ int main()
 	sprintf(fname,"fixA1-%i.dat",getpid());ofstream outA1(fname);
         sprintf(fname,"fixA2-%i.dat",getpid());ofstream outA2(fname);
 
-	for (int reps=0;reps<1000;reps++)
+	for (int reps=0;reps<nreps;reps++)
 	{
 	vector<indiv_t> starting_pop(popsize),next_gen;
 
@@ -291,5 +298,8 @@ int main()
 	}
 	outA1.close();
 	outA2.close();		
+
+	cout << "ave randCount = " << 1.0*randCount/nreps << endl;
+
 }
 
